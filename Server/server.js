@@ -2,7 +2,7 @@ const express = require("express");
 const { createServer } = require("http");
 const { Server } = require("socket.io");
 const Controller = require("./controllers/Controller");
-const cors = require('cors');
+const cors = require("cors");
 
 const app = express();
 const httpServer = createServer(app);
@@ -10,9 +10,11 @@ const io = new Server(httpServer, {
   cors: { origin: "http://localhost:5173", methods: ["GET", "POST"] },
 });
 
-app.use(cors({
-  origin: 'http://localhost:5173'
-}));
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+  })
+);
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
@@ -76,6 +78,28 @@ io.on("connection", (socket) => {
       });
     } else {
       currentUser.socket.emit("OpponentNotFound");
+    }
+  });
+
+  socket.on("logout", () => {
+    const currentUser = allUsers[socket.id];
+    currentUser.online = false;
+    currentUser.playing = false;
+
+    for (let index = 0; index < allRooms.length; index++) {
+      const { player1, player2 } = allRooms[index];
+
+      if (player1.socket.id === socket.id) {
+        player2.socket.emit("opponentLeftMatch");
+        allRooms.splice(index, 1);
+        break;
+      }
+
+      if (player2.socket.id === socket.id) {
+        player1.socket.emit("opponentLeftMatch");
+        allRooms.splice(index, 1);
+        break;
+      }
     }
   });
 

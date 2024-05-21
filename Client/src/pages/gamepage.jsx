@@ -1,8 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, createContext } from "react";
 import Square from "../Square/Square";
 import { io } from "socket.io-client";
 import Swal from "sweetalert2";
 import Chat from "../Chat/Chat";
+import Navbar from "../components/navbar";
+
+export const DisconnectContext = createContext(null)
 
 const renderFrom = [
     [1, 2, 3],
@@ -158,6 +161,9 @@ export default function GamePage() {
   }
   return (
     <>
+    <DisconnectContext.Provider value={{socket, setFinishetState}}>
+    <Navbar/>
+    </DisconnectContext.Provider>
       <div className="grid grid-cols-1 md:grid-cols-2">
         <div>
           <div className="main-div">
