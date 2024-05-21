@@ -1,8 +1,8 @@
 import React, { useState, useEffect, createContext } from "react";
-import Square from "../Square/Square";
+import Square from "../components/Square";
 import { io } from "socket.io-client";
 import Swal from "sweetalert2";
-import Chat from "../Chat/Chat";
+import Chat from "../components/Chat";
 import Navbar from "../components/navbar";
 
 export const DisconnectContext = createContext(null)
