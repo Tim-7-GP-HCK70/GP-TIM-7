@@ -159,7 +159,7 @@ const App = () => {
   }
 
   return (
-    <div className="grid grid-cols-2">
+    <div className="grid grid-cols-1 md:grid-cols-2">
       <div>
         <div className="main-div">
           <div className="move-detection">
@@ -229,7 +229,11 @@ const App = () => {
       </div>
 
       <div>
-        <Chat />
+        <Chat
+          opponentName={opponentName}
+          playerName={playerName}
+          socket={socket}
+        />
       </div>
     </div>
   );
