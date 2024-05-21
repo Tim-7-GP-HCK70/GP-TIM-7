@@ -1,10 +1,21 @@
+const express = require("express");
 const { createServer } = require("http");
 const { Server } = require("socket.io");
+const Controller = require("./controllers/Controller");
 
-const httpServer = createServer();
+const app = express();
+const httpServer = createServer(app);
 const io = new Server(httpServer, {
-  cors: "http://localhost:5173/",
+  cors: { origin: "http://localhost:5173/", methods: ["GET", "POST"] },
 });
+
+// middleware body parser
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+
+// endpoints
+app.post("/register", Controller.register);
+app.post("/login", Controller.login);
 
 const allUsers = {};
 const allRooms = [];
@@ -14,6 +25,10 @@ io.on("connection", (socket) => {
     socket: socket,
     online: true,
   };
+
+  socket.on("messages:new", (newMessage) => {
+    io.emit("messages:info", newMessage);
+  });
 
   socket.on("request_to_play", (data) => {
     const currentUser = allUsers[socket.id];
@@ -83,3 +98,5 @@ io.on("connection", (socket) => {
 });
 
 httpServer.listen(3000);
+
+module.exports = app;

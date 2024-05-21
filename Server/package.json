@@ -1,8 +1,11 @@
 {
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "express": "^4.19.2",
     "http": "^0.0.1-security",
-    "nodemon": "^3.0.2",
+    "jsonwebtoken": "^9.0.2",
+    "pg": "^8.11.5",
+    "sequelize": "^6.37.3",
     "socket.io": "^4.7.5"
   },
   "scripts": {
@@ -14,5 +17,9 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "nodemon": "^3.1.0",
+    "sequelize-cli": "^6.6.2"
+  }
 }
