@@ -1,6 +1,7 @@
 const express = require("express");
 const { createServer } = require("http");
 const { Server } = require("socket.io");
+const Controller = require("./controllers/Controller");
 
 const app = express();
 const httpServer = createServer();
@@ -13,7 +14,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 // endpoints
-app.post("/login");
+app.post("/login", Controller.login);
 
 const allUsers = {};
 const allRooms = [];
