@@ -4,6 +4,16 @@ export default function Chat({ socket, playerName, opponentName }) {
   const [newMessage, setNewMessage] = useState("");
   const [messages, setMessages] = useState([]);
 
+  const getInitials = (string) => {
+    var names = string.split(" "),
+      initials = names[0].substring(0, 1).toUpperCase();
+
+    if (names.length > 1) {
+      initials += names[names.length - 1].substring(0, 1).toUpperCase();
+    }
+    return initials;
+  };
+
   const handleSend = (e) => {
     e.preventDefault();
     const user = playerName || opponentName;
@@ -69,7 +79,11 @@ export default function Chat({ socket, playerName, opponentName }) {
                 </div>
               </div>
               <div className="relative inline-flex items-center justify-center w-6 h-6 sm:w-12 sm:h-12 overflow-hidden rounded-full bg-gray-200">
-                <span className="font-medium text-gray-800">{el.from}</span>
+                <span className="font-medium text-gray-800">
+                  {el.from === playerName
+                    ? getInitials(playerName)
+                    : getInitials(opponentName)}
+                </span>
               </div>
             </div>
           </div>
