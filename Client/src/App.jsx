@@ -159,69 +159,77 @@ const App = () => {
   }
 
   return (
-    <div className="main-div">
-      <div className="move-detection">
-        <div
-          className={`left ${
-            currentPlayer === playingAs ? "current-move-" + currentPlayer : ""
-          }`}
-        >
-          {playerName}
-        </div>
-        <div
-          className={`right ${
-            currentPlayer !== playingAs ? "current-move-" + currentPlayer : ""
-          }`}
-        >
-          {opponentName}
-        </div>
-      </div>
+    <div className="grid grid-cols-2">
       <div>
-        <h1 className="game-heading water-background">Tic Tac Toe</h1>
-        <div className="square-wrapper">
-          {gameState.map((arr, rowIndex) =>
-            arr.map((e, colIndex) => {
-              return (
-                <Square
-                  socket={socket}
-                  playingAs={playingAs}
-                  gameState={gameState}
-                  finishedArrayState={finishedArrayState}
-                  finishedState={finishedState}
-                  currentPlayer={currentPlayer}
-                  setCurrentPlayer={setCurrentPlayer}
-                  setGameState={setGameState}
-                  id={rowIndex * 3 + colIndex}
-                  key={rowIndex * 3 + colIndex}
-                  currentElement={e}
-                />
-              );
-            })
+        <div className="main-div">
+          <div className="move-detection">
+            <div
+              className={`left ${
+                currentPlayer === playingAs
+                  ? "current-move-" + currentPlayer
+                  : ""
+              }`}
+            >
+              {playerName}
+            </div>
+            <div
+              className={`right ${
+                currentPlayer !== playingAs
+                  ? "current-move-" + currentPlayer
+                  : ""
+              }`}
+            >
+              {opponentName}
+            </div>
+          </div>
+          <div>
+            <h1 className="game-heading water-background my-2">Tic Tac Toe</h1>
+            <div className="square-wrapper">
+              {gameState.map((arr, rowIndex) =>
+                arr.map((e, colIndex) => {
+                  return (
+                    <Square
+                      socket={socket}
+                      playingAs={playingAs}
+                      gameState={gameState}
+                      finishedArrayState={finishedArrayState}
+                      finishedState={finishedState}
+                      currentPlayer={currentPlayer}
+                      setCurrentPlayer={setCurrentPlayer}
+                      setGameState={setGameState}
+                      id={rowIndex * 3 + colIndex}
+                      key={rowIndex * 3 + colIndex}
+                      currentElement={e}
+                    />
+                  );
+                })
+              )}
+            </div>
+            {finishedState &&
+              finishedState !== "opponentLeftMatch" &&
+              finishedState !== "draw" && (
+                <h3 className="finished-state">
+                  {finishedState === playingAs ? "You " : finishedState} won the
+                  game
+                </h3>
+              )}
+            {finishedState &&
+              finishedState !== "opponentLeftMatch" &&
+              finishedState === "draw" && (
+                <h3 className="finished-state">It's a Draw</h3>
+              )}
+          </div>
+          {!finishedState && opponentName && (
+            <h2>You are playing against {opponentName}</h2>
+          )}
+          {finishedState && finishedState === "opponentLeftMatch" && (
+            <h2>You won the match, Opponent has left</h2>
           )}
         </div>
-        {finishedState &&
-          finishedState !== "opponentLeftMatch" &&
-          finishedState !== "draw" && (
-            <h3 className="finished-state">
-              {finishedState === playingAs ? "You " : finishedState} won the
-              game
-            </h3>
-          )}
-        {finishedState &&
-          finishedState !== "opponentLeftMatch" &&
-          finishedState === "draw" && (
-            <h3 className="finished-state">It's a Draw</h3>
-          )}
       </div>
-      {!finishedState && opponentName && (
-        <h2>You are playing against {opponentName}</h2>
-      )}
-      {finishedState && finishedState === "opponentLeftMatch" && (
-        <h2>You won the match, Opponent has left</h2>
-      )}
 
       <div>
-        <Card />
+        <Chat />
       </div>
     </div>
   );
