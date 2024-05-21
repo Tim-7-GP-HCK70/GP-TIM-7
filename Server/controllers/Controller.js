@@ -22,6 +22,14 @@ class Controller {
       res.status(500).json({ message: "Internal Server Error" });
     }
   }
+  static async register(req, res, next) {
+    try {
+      const user = await User.create(req.body);
+      res.status(201).json({ email: user.email, role: user.role });
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 module.exports = Controller;

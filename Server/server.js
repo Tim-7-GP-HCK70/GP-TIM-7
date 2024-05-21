@@ -3,10 +3,17 @@ const { createServer } = require("http");
 const { Server } = require("socket.io");
 const Controller = require("./controllers/Controller");
 
-const httpServer = createServer();
+const app = express();
+const httpServer = createServer(app);
 const io = new Server(httpServer, {
   cors: { origin: "http://localhost:5173/", methods: ["GET", "POST"] },
 });
+
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+
+app.post("/login", Controller.login);
+app.post("/register", Controller.register);
 
 const allUsers = {};
 const allRooms = [];
