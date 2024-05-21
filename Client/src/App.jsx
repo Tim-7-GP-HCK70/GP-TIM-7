@@ -3,6 +3,7 @@ import "./App.css";
 import Square from "./Square/Square";
 import { io } from "socket.io-client";
 import Swal from "sweetalert2";
+import Chat from "./Chat/Chat";
 
 const renderFrom = [
   [1, 2, 3],
@@ -218,6 +219,10 @@ const App = () => {
       {finishedState && finishedState === "opponentLeftMatch" && (
         <h2>You won the match, Opponent has left</h2>
       )}
+
+      <div>
+        <Card />
+      </div>
     </div>
   );
 };
