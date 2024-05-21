@@ -41,7 +41,7 @@ export default function Chat({ socket, playerName, opponentName }) {
         <div className="relative flex items-center space-x-4">
           <div className="flex flex-col leading-tight">
             <div className="text-xl font-medium mt-1">
-              <span className="text-center text-white-700 mr-3">Messages</span>
+              <span className="text-center text-white-700 mr-3">Chat</span>
             </div>
           </div>
         </div>
