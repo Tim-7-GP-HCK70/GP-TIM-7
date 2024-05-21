@@ -1,10 +1,19 @@
+const express = require("express");
 const { createServer } = require("http");
 const { Server } = require("socket.io");
 
+const app = express();
 const httpServer = createServer();
 const io = new Server(httpServer, {
   cors: "http://localhost:5173/",
 });
+
+// middleware body parser
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+
+// endpoints
+app.post("/login");
 
 const allUsers = {};
 const allRooms = [];
