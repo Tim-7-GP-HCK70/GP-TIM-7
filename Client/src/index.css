@@ -4,3 +4,7 @@ body {
   color: white;
   font-family: "Poppins", sans-serif;
 }
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

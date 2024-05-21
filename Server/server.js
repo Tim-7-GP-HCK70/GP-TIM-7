@@ -25,6 +25,10 @@ io.on("connection", (socket) => {
     online: true,
   };
 
+  socket.on("messages:new", (newMessage) => {
+    io.emit("messages:info", newMessage);
+  });
+
   socket.on("request_to_play", (data) => {
     const currentUser = allUsers[socket.id];
     currentUser.playerName = data.playerName;
