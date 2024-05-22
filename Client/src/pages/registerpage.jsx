@@ -64,7 +64,7 @@ export default function Register() {
                 Sign Up
               </button>
               <Link
-                className="bg-red-600 w-full  md:w-auto px-6 py-2 rounded-md text-lg text-slate-100"
+                className="bg-red-600 w-full  md:w-auto px-6 py-2 rounded-md text-lg text-slate-100 text-center"
                 to="/login"
               >
                 Sign In
