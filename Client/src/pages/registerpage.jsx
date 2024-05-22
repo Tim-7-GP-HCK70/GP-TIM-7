@@ -11,7 +11,7 @@ export default function Register() {
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:3000/register", {
+      await axios.post("https://gp-tim-7.arditama.com/register", {
         email,
         password,
         role,

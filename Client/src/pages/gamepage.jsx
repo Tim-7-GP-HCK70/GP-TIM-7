@@ -131,7 +131,7 @@ export default function GamePage() {
     const username = result.value;
     setPlayerName(username);
 
-    const newSocket = io("http://localhost:3000", {
+    const newSocket = io("https://gp-tim-7.arditama.com", {
       autoConnect: true,
     });
 

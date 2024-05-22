@@ -10,7 +10,7 @@ export default function Login() {
     el.preventDefault();
 
     try {
-      let res = await axios.post("http://localhost:3000/login", {
+      let res = await axios.post("https://gp-tim-7.arditama.com/login", {
         email,
         password,
       });

@@ -7,12 +7,12 @@ const cors = require("cors");
 const app = express();
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
-  cors: { origin: "http://localhost:5173", methods: ["GET", "POST"] },
+  cors: { origin: "https://gp-tim-7.web.app", methods: ["GET", "POST"] },
 });
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "https://gp-tim-7.web.app",
   })
 );
 
