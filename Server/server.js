@@ -103,8 +103,8 @@ io.on("connection", (socket) => {
     }
   });
 
-  socket.on('reset_game', () => {
-    io.emit('reset_game');
+  socket.on("reset_game", () => {
+    io.emit("game_reset");
   });
 
   socket.on("disconnect", function () {

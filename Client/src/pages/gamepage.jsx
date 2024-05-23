@@ -51,6 +51,7 @@ export default function GamePage() {
       gameState[0][0] === gameState[1][1] &&
       gameState[1][1] === gameState[2][2]
     ) {
+      setFinishedArrayState([0, 4, 8]);
       return gameState[0][0];
     }
 
@@ -58,6 +59,7 @@ export default function GamePage() {
       gameState[0][2] === gameState[1][1] &&
       gameState[1][1] === gameState[2][0]
     ) {
+      setFinishedArrayState([2, 4, 6]);
       return gameState[0][2];
     }
 
@@ -92,34 +94,51 @@ export default function GamePage() {
     return result;
   };
 
-  socket?.on("opponentLeftMatch", () => {
-    setFinishetState("opponentLeftMatch");
-  });
+  useEffect(() => {
+    if (socket) {
+      socket.on("opponentLeftMatch", () => {
+        setFinishetState("opponentLeftMatch");
+      });
 
-  socket?.on("playerMoveFromServer", (data) => {
-    const id = data.state.id;
-    setGameState((prevState) => {
-      let newState = [...prevState];
-      const rowIndex = Math.floor(id / 3);
-      const colIndex = id % 3;
-      newState[rowIndex][colIndex] = data.state.sign;
-      return newState;
-    });
-    setCurrentPlayer(data.state.sign === "circle" ? "cross" : "circle");
-  });
+      socket.on("playerMoveFromServer", (data) => {
+        const id = data.state.id;
+        setGameState((prevState) => {
+          let newState = [...prevState];
+          const rowIndex = Math.floor(id / 3);
+          const colIndex = id % 3;
+          newState[rowIndex][colIndex] = data.state.sign;
+          return newState;
+        });
+        setCurrentPlayer(data.state.sign === "circle" ? "cross" : "circle");
+      });
 
-  socket?.on("connect", function () {
-    setPlayOnline(true);
-  });
+      socket.on("connect", () => {
+        setPlayOnline(true);
+      });
 
-  socket?.on("OpponentNotFound", function () {
-    setOpponentName(false);
-  });
+      socket.on("OpponentNotFound", () => {
+        setOpponentName(false);
+      });
 
-  socket?.on("OpponentFound", function (data) {
-    setPlayingAs(data.playingAs);
-    setOpponentName(data.opponentName);
-  });
+      socket.on("OpponentFound", (data) => {
+        setPlayingAs(data.playingAs);
+        setOpponentName(data.opponentName);
+      });
+
+      socket.on('game_reset', () => {
+        resetGame();
+      });
+
+      return () => {
+        socket.off("opponentLeftMatch");
+        socket.off("playerMoveFromServer");
+        socket.off("connect");
+        socket.off("OpponentNotFound");
+        socket.off("OpponentFound");
+        socket.off("game_reset");
+      };
+    }
+  }, [socket]);
 
   async function playOnlineClick() {
     const result = await takePlayerName();
@@ -135,18 +154,6 @@ export default function GamePage() {
       autoConnect: true,
     });
 
-    useEffect(() => {
-      if (socket) {
-        socket.on("game_reset", () => {
-          resetGame();
-        });
-
-        return () => {
-          socket.off("game_reset");
-        };
-      }
-    }, [socket]);
-
     newSocket?.emit("request_to_play", {
       playerName: username,
     });
@@ -155,11 +162,14 @@ export default function GamePage() {
   }
 
   const resetGame = () => {
-    setGameState(renderFrom);
+    setGameState([
+      [1, 2, 3],
+      [4, 5, 6],
+      [7, 8, 9],
+    ]);
     setCurrentPlayer("circle");
     setFinishetState(false);
     setFinishedArrayState([]);
-    socket?.emit("reset_game");
   };
 
   if (!playOnline) {
