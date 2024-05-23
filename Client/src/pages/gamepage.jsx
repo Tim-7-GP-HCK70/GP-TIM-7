@@ -8,9 +8,9 @@ import Navbar from "../components/navbar";
 export const DisconnectContext = createContext(null);
 
 const renderFrom = [
-  [1, 2, 3],
-  [4, 5, 6],
-  [7, 8, 9],
+  [null, null, null],
+  [null, null, null],
+  [null, null, null],
 ];
 
 export default function GamePage() {
@@ -123,7 +123,7 @@ export default function GamePage() {
         setOpponentName(data.opponentName);
       });
 
-      socket.on('game_reset', () => {
+      socket.on("game_reset", () => {
         resetGame();
       });
 
@@ -160,11 +160,12 @@ export default function GamePage() {
   }
 
   const resetGame = () => {
-    setGameState([
-      [1, 2, 3],
-      [4, 5, 6],
-      [7, 8, 9],
-    ]);
+    const emptyState = [
+      [null, null, null],
+      [null, null, null],
+      [null, null, null],
+    ];
+    setGameState(emptyState);
     setCurrentPlayer("circle");
     setFinishetState(false);
     setFinishedArrayState([]);
