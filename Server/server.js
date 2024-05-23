@@ -126,6 +126,22 @@ io.on("connection", (socket) => {
       }
     }
   });
+
+  socket.on("game_reset", () => {
+    for (let index = 0; index < allRooms.length; index++) {
+      const { player1, player2 } = allRooms[index];
+
+      if (player1.socket.id === socket.id) {
+        player2.socket.emit("game_reset");
+        break;
+      }
+
+      if (player2.socket.id === socket.id) {
+        player1.socket.emit("game_reset");
+        break;
+      }
+    }
+  });
 });
 
 const port = process.env.PORT || 3000;

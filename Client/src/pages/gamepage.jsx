@@ -25,7 +25,6 @@ export default function GamePage() {
   const [playingAs, setPlayingAs] = useState(null);
 
   const checkWinner = () => {
-    // row dynamic
     for (let row = 0; row < gameState.length; row++) {
       if (
         gameState[row][0] === gameState[row][1] &&
@@ -36,7 +35,6 @@ export default function GamePage() {
       }
     }
 
-    // column dynamic
     for (let col = 0; col < gameState.length; col++) {
       if (
         gameState[0][col] === gameState[1][col] &&
@@ -64,7 +62,7 @@ export default function GamePage() {
     }
 
     const isDrawMatch = gameState.flat().every((e) => {
-      if (e === "circle" || e === "cross") return true;
+      return e === "circle" || e === "cross";
     });
 
     if (isDrawMatch) return "draw";
