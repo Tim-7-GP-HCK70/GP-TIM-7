@@ -135,6 +135,18 @@ export default function GamePage() {
       autoConnect: true,
     });
 
+    useEffect(() => {
+      if (socket) {
+        socket.on("game_reset", () => {
+          resetGame();
+        });
+
+        return () => {
+          socket.off("game_reset");
+        };
+      }
+    }, [socket]);
+
     newSocket?.emit("request_to_play", {
       playerName: username,
     });
