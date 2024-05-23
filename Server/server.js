@@ -103,6 +103,10 @@ io.on("connection", (socket) => {
     }
   });
 
+  socket.on('reset_game', () => {
+    io.emit('reset_game');
+  });
+
   socket.on("disconnect", function () {
     const currentUser = allUsers[socket.id];
     currentUser.online = false;

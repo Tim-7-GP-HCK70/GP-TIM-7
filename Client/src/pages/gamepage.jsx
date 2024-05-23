@@ -5,13 +5,13 @@ import Swal from "sweetalert2";
 import Chat from "../components/Chat";
 import Navbar from "../components/navbar";
 
-export const DisconnectContext = createContext(null)
+export const DisconnectContext = createContext(null);
 
 const renderFrom = [
-    [1, 2, 3],
-    [4, 5, 6],
-    [7, 8, 9],
-  ];
+  [1, 2, 3],
+  [4, 5, 6],
+  [7, 8, 9],
+];
 
 export default function GamePage() {
   const [gameState, setGameState] = useState(renderFrom);
@@ -142,6 +142,14 @@ export default function GamePage() {
     setSocket(newSocket);
   }
 
+  const resetGame = () => {
+    setGameState(renderFrom);
+    setCurrentPlayer("circle");
+    setFinishetState(false);
+    setFinishedArrayState([]);
+    socket?.emit("reset_game");
+  };
+
   if (!playOnline) {
     return (
       <div className="main-div">
@@ -161,9 +169,9 @@ export default function GamePage() {
   }
   return (
     <>
-    <DisconnectContext.Provider value={{socket, setFinishetState}}>
-    <Navbar/>
-    </DisconnectContext.Provider>
+      <DisconnectContext.Provider value={{ socket, setFinishetState }}>
+        <Navbar />
+      </DisconnectContext.Provider>
       <div className="grid grid-cols-1 md:grid-cols-2">
         <div>
           <div className="main-div">
@@ -225,6 +233,11 @@ export default function GamePage() {
                 finishedState === "draw" && (
                   <h3 className="finished-state">It's a Draw</h3>
                 )}
+              {finishedState && (
+                <button onClick={resetGame} className="play-again">
+                  Play Again
+                </button>
+              )}
             </div>
             {!finishedState && opponentName && (
               <h2>You are playing against {opponentName}</h2>
